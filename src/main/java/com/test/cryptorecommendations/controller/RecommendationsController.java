@@ -1,14 +1,18 @@
 package com.test.cryptorecommendations.controller;
 
-import com.test.cryptorecommendations.model.RecommendationDTO;
-import com.test.cryptorecommendations.service.IRecommendationsService;
+import com.test.cryptorecommendations.controller.dto.RecommendationDTO;
+import com.test.cryptorecommendations.service.RecommendationsService;
+import com.test.cryptorecommendations.service.model.CryptoModel;
+import com.test.cryptorecommendations.service.model.RecommendationModel;
+import com.test.cryptorecommendations.utilities.ModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.GET;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,15 +20,21 @@ import java.util.List;
 public class RecommendationsController {
 
     @Autowired
-    private IRecommendationsService service;
+    private RecommendationsService service;
 
-    public void List() {
-
-    }
+    // todo: Rename RecommendationDTO and RecommendationModel. They are objects, containing info about concrete Currency, not something recommendational.
 
     @GetMapping
-    public List<RecommendationDTO> getAll() {
-        return service.findAll();
+    public List<RecommendationDTO> getAll() throws IOException {
+        List<RecommendationDTO> response = new ArrayList<>();
+        List<RecommendationModel> recommendationModels = service.getAll();
+
+        for (RecommendationModel model : recommendationModels) {
+            RecommendationDTO dto = ModelConverter.recommendationModelToDTO(model);
+            response.add(dto);
+        }
+
+        return response;
     }
 
     // Exposes an endpoint that will return a descending sorted list of all the cryptos,

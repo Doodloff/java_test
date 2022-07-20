@@ -1,55 +1,24 @@
 package com.test.cryptorecommendations.service;
 
-import com.test.cryptorecommendations.model.RecommendationDTO;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import com.test.cryptorecommendations.controller.dto.RecommendationDTO;
+import com.test.cryptorecommendations.service.model.CryptoModel;
+import com.test.cryptorecommendations.service.model.RecommendationModel;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.*;
+import java.io.IOException;
+import java.util.List;
 
-public class RecommendationsService implements IRecommendationsService {
+public interface RecommendationsService {
+    RecommendationModel getRecommendation(String cryptoCode);
 
+    List<RecommendationModel> getAll() throws IOException;
 
-    @Override
-    public List<RecommendationDTO> readExcel() {
-        try
-        {
-            String fileLocation = "";
+    List<RecommendationModel> getSortedDesc() throws IOException;
 
-            FileInputStream file = new FileInputStream(new File(fileLocation));
-            Workbook workbook = new XSSFWorkbook(file);
+    CryptoModel getMinForCrypto(String cryptoCode);
 
-            Sheet sheet = workbook.getSheetAt(0);
+    CryptoModel getMaxForCrypto(String cryptoCode);
 
-            Map<Integer, List<String>> data = new HashMap<>();
-            int i = 0;
-            for (Row row : sheet) {
-                data.put(i, new ArrayList<String>());
-                for (Cell cell : row) {
-                    switch (cell.getCellType()) {
-                        case STRING: /*...*/ break;
-                        case NUMERIC: /*...*/ break;
-                        case BOOLEAN: /*...*/ break;
-                        case FORMULA: /*...*/ break;
-                        default: data.get(new Integer(i)).add(" ");
-                    }
-                }
-                i++;
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+    CryptoModel getNewestForCrypto(String cryptoCode);
 
-        return null;
-    }
-
-    @Override
-    public List<RecommendationDTO> findAll() {
-        return null;
-    }
+    CryptoModel getOldestForCrypto(String cryptoCode);
 }

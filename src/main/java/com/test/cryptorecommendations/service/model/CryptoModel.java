@@ -1,11 +1,13 @@
-package com.test.cryptorecommendations.model;
+package com.test.cryptorecommendations.service.model;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Comparator;
 
-public class RecommendationDTO {
+public class CryptoModel{
     private Timestamp timestamp;
     private String name;
-    private float price;
+    private BigDecimal price;
 
     public Timestamp getTimestamp() {
         return timestamp;
@@ -23,11 +25,11 @@ public class RecommendationDTO {
         this.name = name;
     }
 
-    public float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }
