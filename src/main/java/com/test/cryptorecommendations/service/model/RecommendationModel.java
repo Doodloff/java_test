@@ -1,16 +1,17 @@
 package com.test.cryptorecommendations.service.model;
 
-import com.test.cryptorecommendations.data.entity.CryptoEntity;
 import org.springframework.util.Assert;
-
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+// <summary>
+// A cryptocurrency model with entries list and sensitive data
+// </summary>
 public class RecommendationModel implements Comparator<RecommendationModel> {
     private String cryptoCode;
     private List<CryptoModel> cryptos;
@@ -66,25 +67,22 @@ public class RecommendationModel implements Comparator<RecommendationModel> {
                 .orElseThrow(NoSuchElementException::new);
     }
 
-    public CryptoModel getMaxByDay(LocalDate date) {
+    public Optional<CryptoModel> getMaxByDay(LocalDate date) {
         return cryptos.stream()
-                .filter(cryptoModel -> cryptoModel.getTimestamp() == date.atStartOfDay())
-                .max(Comparator.comparing(CryptoModel::getPrice))
-                .orElseThrow(NoSuchElementException::new);
+                .filter(cryptoModel -> cryptoModel.getTimestamp().toLocalDate().equals(date))
+                .max(Comparator.comparing(CryptoModel::getPrice));
     }
 
-    public CryptoModel getMinByDay(LocalDate date) {
+    public Optional<CryptoModel> getMinByDay(LocalDate date) {
         return cryptos.stream()
-                .filter(cryptoModel -> cryptoModel.getTimestamp() == date.atStartOfDay())
-                .min(Comparator.comparing(CryptoModel::getPrice))
-                .orElseThrow(NoSuchElementException::new);
+                .filter(cryptoModel -> cryptoModel.getTimestamp().toLocalDate().equals(date))
+                .min(Comparator.comparing(CryptoModel::getPrice));
     }
 
-    public BigDecimal getNormalizedValueBuyDay(LocalDate date) {
-        Assert.notNull(getMax(), "max value should not be null");
-        Assert.notNull(getMin(), "min value should not be null");
+    public BigDecimal getNormalizedValueByDay(LocalDate date) {
+        Assert.notNull(date, "date should not be null");
 
-        return getMaxByDay(date).getPrice().subtract(getMinByDay(date).getPrice()).divide(getMinByDay(date).getPrice(), 3);
+        return getMaxByDay(date).get().getPrice().subtract(getMinByDay(date).get().getPrice()).divide(getMinByDay(date).get().getPrice(), 3);
     }
 
     public String getCryptoCode() {

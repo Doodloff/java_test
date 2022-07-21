@@ -2,41 +2,45 @@ package com.test.cryptorecommendations.data;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import com.test.cryptorecommendations.controller.dto.RecommendationDTO;
 import com.test.cryptorecommendations.data.entity.CryptoEntity;
-import javassist.ClassPath;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
+// <summary>
+// This class is responsible for reading cryptocurrency data from files
+// For now it reads all files from specified directory
+// Logic could be easily extended to read more files with gradation by months (for example - a subdirectory for each month or other way)
+// </summary>
 @Component
 public class CSVCryptoLoader implements CryptorLoader{
+
+    private static Logger logger = LogManager.getLogger(CSVCryptoLoader.class);
+
     @Value(value = "src/main/resources/cryptos/")
     private String cryptoDataPath;
 
 
+    // Reads CSV file with Crypto entries. Columns: timestamp, symbol, price.
     @Override
-//    @Cacheable(value = "crypto_data", key = "#cryptoCode")
+    @Cacheable(value = "crypto_data", key = "#cryptoCode")
     public List<CryptoEntity> readCrypto(String cryptoCode) {
         List<CryptoEntity> records = new ArrayList<>();
         String filePath = cryptoDataPath + cryptoCode + "_values.csv";
@@ -55,28 +59,16 @@ public class CSVCryptoLoader implements CryptorLoader{
                 records.add(entity);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.error(DataErrorMessages.NO_CRYPTOCURRENCY_FILE);
         } catch (IOException e) {
+            logger.error(DataErrorMessages.CRYPTOCURRENCY_FILE_READ_ERROR);
             e.printStackTrace();
         }
 
         return records;
     }
 
-//    @Override
-//    public Map<String, List<CryptoEntity>> getAllCryptos() throws IOException {
-//        Set<String> cryptoFileNames = listFilesInDir("");
-//
-//        Map<String, List<CryptoEntity>> cryptosMap = new HashMap<>();
-//
-//        for (String name : cryptoFileNames) {
-//            List<CryptoEntity> entities = readCrypto(name);
-//            cryptosMap.put(name, entities);
-//        }
-//
-//        return cryptosMap;
-//    }
-
+    // Listing files in specified directory with crypto currency data
     @Override
     public Set listFilesInDir(String dir) throws IOException {
         try (Stream<Path> stream = Files.list(Paths.get(dir))) {
@@ -88,6 +80,7 @@ public class CSVCryptoLoader implements CryptorLoader{
         }
     }
 
+    // Get supported codes based on the file names in directory
     @Override
     @Cacheable("crypto_codes")
     public Set<String> getSupportedCryptoCodes() throws IOException {

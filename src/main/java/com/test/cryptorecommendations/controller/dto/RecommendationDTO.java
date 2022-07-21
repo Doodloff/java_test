@@ -1,9 +1,6 @@
 package com.test.cryptorecommendations.controller.dto;
 
-import com.test.cryptorecommendations.service.model.CryptoModel;
-
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.List;
 
 public class RecommendationDTO {

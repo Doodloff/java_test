@@ -1,14 +1,7 @@
 package com.test.cryptorecommendations.controller.dto;
 
-import com.test.cryptorecommendations.service.model.CryptoModel;
-
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 public class CryptoDTO {
     private LocalDateTime timestamp;

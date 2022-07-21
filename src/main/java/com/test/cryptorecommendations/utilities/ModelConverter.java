@@ -5,10 +5,12 @@ import com.test.cryptorecommendations.controller.dto.RecommendationDTO;
 import com.test.cryptorecommendations.data.entity.CryptoEntity;
 import com.test.cryptorecommendations.service.model.CryptoModel;
 import com.test.cryptorecommendations.service.model.RecommendationModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
+// <summary>
+// A utility class for conversions between entries, models, DTOs
+// </summary>
 public class ModelConverter {
     public static CryptoModel cryptoEntityToModel(CryptoEntity entity) {
         CryptoModel model = new CryptoModel();

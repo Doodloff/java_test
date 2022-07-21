@@ -9,7 +9,6 @@ import com.test.cryptorecommendations.utilities.ModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +20,7 @@ public class RecommendationsController {
     @Autowired
     private RecommendationsService service;
 
+    // All cryptos
     @GetMapping
     public List<RecommendationDTO> getAll() {
         List<RecommendationModel> recommendationModels = service.getAll();
@@ -30,8 +30,7 @@ public class RecommendationsController {
         return response;
     }
 
-    // Exposes an endpoint that will return a descending sorted list of all the cryptos,
-    // comparing the normalized range (i.e. (max-min)/min)
+    // Descending sorted list of all the cryptos, comparing the normalized range (i.e. (max-min)/min)
     @GetMapping(value = "/sorted")
     public List<RecommendationDTO> getSortedDesc() {
         List<RecommendationModel> recommendationModels = service.getSortedDesc();
@@ -40,12 +39,7 @@ public class RecommendationsController {
         return response;
     }
 
-    // Calculates oldest/newest/min/max for each crypto for the whole month
-    // Exposes an endpoint that will return the oldest/newest/min/max values for a requested
-    // crypto
-
-    // todo: Consider checking for currency identifier
-    // -- is month also requisted or is the last one?
+    // Minimum value for a crypto
     @GetMapping(value = "/{name}/min")
     public CryptoDTO getMin(@PathVariable("name") String name) {
         CryptoModel cryptoModel = service.recommendMinForCrypto(name);
@@ -54,7 +48,7 @@ public class RecommendationsController {
         return response;
     }
 
-    //todo: Consider checking for currency identifier and month in attributes
+    // Maximum value for a crypto
     @GetMapping(value = "/{name}/max")
     public CryptoDTO getMax(@PathVariable("name") String name) {
         CryptoModel cryptoModel = service.recommendMaxForCrypto(name);
@@ -63,7 +57,7 @@ public class RecommendationsController {
         return response;
     }
 
-    //todo: Consider checking for currency identifier and month in attributes
+    // Newest value for a crypto
     @GetMapping(value = "/{name}/newest")
     public CryptoDTO getNewest(@PathVariable("name") String name) {
         CryptoModel cryptoModel = service.recommendNewestForCrypto(name);
@@ -72,7 +66,7 @@ public class RecommendationsController {
         return response;
     }
 
-    //todo: Consider checking for currency identifier and month in attributes
+    // Oldest value for a crypto
     @GetMapping(value = "/{name}/oldest")
     public CryptoDTO getOldest(@PathVariable("name") String name) {
         CryptoModel cryptoModel = service.recommendOldestForCrypto(name);
@@ -81,9 +75,8 @@ public class RecommendationsController {
         return response;
     }
 
-    // Exposes an endpoint that will return the crypto with the highest normalized range for a
-    // specific day
-    @PostMapping("/highestNormalized")
+    // Crypto with the highest normalized range for a specific day
+    @GetMapping("/highestNormalized")
     public RecommendationDTO getHighestNormilizedByDay (@RequestParam("localDate")
                                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         RecommendationDTO response = ModelConverter.recommendationModelToDTO(service.getWithHighestNormalizedRangeByDay(date));

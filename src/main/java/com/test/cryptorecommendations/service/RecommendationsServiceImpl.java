@@ -10,18 +10,21 @@ import com.test.cryptorecommendations.utilities.ModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+// <summary>
+// Business logic
+// </summary>
 @Service
 public class RecommendationsServiceImpl implements RecommendationsService {
 
     @Autowired
     private CryptorLoader cryptoLoader;
 
+    // Get recommendation object (a cryptocurrency with entries list and sensitive data)
     @Override
     public RecommendationModel getRecommendation(String cryptoCode) {
         Assert.notNull(cryptoCode, "cryptoCode is required");
@@ -38,12 +41,14 @@ public class RecommendationsServiceImpl implements RecommendationsService {
         return result;
     }
 
+    // List all currencies
     @Override
     public List<RecommendationModel> getAll() {
         Set<String> codes = getSupportedCryptoCodes();
         return codes.stream().map(this::getRecommendation).collect(Collectors.toList());
     }
 
+    // Get supported crypto codes
     @Override
     public Set<String> getSupportedCryptoCodes() {
         try {
@@ -53,43 +58,53 @@ public class RecommendationsServiceImpl implements RecommendationsService {
         }
     }
 
+    // Descending sorted list of all the cryptos, comparing the normalized range (i.e. (max-min)/min)
     @Override
     public List<RecommendationModel> getSortedDesc() {
-        return getAll().stream().
-                sorted(Comparator.comparing(RecommendationModel::getNormalizedValue).reversed()).collect(Collectors.toList());
+        return getAll().stream()
+                .sorted(Comparator.comparing(RecommendationModel::getNormalizedValue).reversed()).collect(Collectors.toList());
     }
 
+    // Currently unused, but retrieves a cryptocurrency with highest normalized range in a file (month).
     @Override
     public RecommendationModel getHighestNormalizedRange() {
-        return getAll().stream().
-                sorted(Comparator.comparing(RecommendationModel::getNormalizedValue).reversed()).findFirst().
+        return getAll().stream()
+                .sorted(Comparator.comparing(RecommendationModel::getNormalizedValue).reversed()).findFirst().
                 orElseThrow(NoSuchElementException::new);
     }
 
+    // Retrieves a cryptocurrency with highest normalized range for a specific day.
     @Override
     public RecommendationModel getWithHighestNormalizedRangeByDay(LocalDate date) {
-        return getAll().stream().max(Comparator.comparing(recommendationModel -> recommendationModel.getNormalizedValueBuyDay(date))).
-                orElseThrow(NoSuchElementException::new);
+        return getAll().stream()
+                .filter(recommendationModel -> recommendationModel.getMinByDay(date).isPresent())
+                .filter(recommendationModel -> recommendationModel.getMaxByDay(date).isPresent())
+                .max(Comparator.comparing(recommendationModel -> recommendationModel.getNormalizedValueByDay(date)))
+                .orElseThrow(NoSuchElementException::new);
     }
 
+    // Retrieves a cryptocurrency entry the minimum price by currency symbol.
     @Override
     public CryptoModel recommendMinForCrypto(String cryptoCode) {
         Assert.notNull(cryptoCode, "cryptoCode is required");
         return getRecommendation(cryptoCode).getMin();
     }
 
+    // Retrieves a cryptocurrency entry the maximum price by currency symbol.
     @Override
     public CryptoModel recommendMaxForCrypto(String cryptoCode) {
         Assert.notNull(cryptoCode, "cryptoCode is required");
         return getRecommendation(cryptoCode).getMax();
     }
 
+    // Retrieves the most fresh cryptocurrency entry by currency symbol.
     @Override
     public CryptoModel recommendNewestForCrypto(String cryptoCode){
         Assert.notNull(cryptoCode, "cryptoCode is required");
         return getRecommendation(cryptoCode).getNewest();
     }
 
+    // Retrieves the oldest cryptocurrency entry by currency symbol.
     @Override
     public CryptoModel recommendOldestForCrypto(String cryptoCode){
         Assert.notNull(cryptoCode, "cryptoCode is required");

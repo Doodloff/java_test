@@ -1,9 +1,7 @@
 package com.test.cryptorecommendations.service.model;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 
 public class CryptoModel{
     private LocalDateTime timestamp;
