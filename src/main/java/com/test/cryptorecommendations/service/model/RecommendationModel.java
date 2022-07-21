@@ -14,12 +14,12 @@ import java.util.stream.Collectors;
 // </summary>
 public class RecommendationModel implements Comparator<RecommendationModel> {
     private String cryptoCode;
-    private List<CryptoModel> cryptos;
     private CryptoModel max;
     private CryptoModel min;
     private CryptoModel newest;
     private CryptoModel oldest;
     private BigDecimal normalizedValue;
+    private List<CryptoModel> cryptos;
 
     public RecommendationModel(String cryptoCode, List<CryptoModel> cryptos){
         this.cryptoCode = cryptoCode;

@@ -5,12 +5,12 @@ import java.util.List;
 
 public class RecommendationDTO {
     private String cryptoCode;
-    private List<CryptoDTO> cryptos;
     private CryptoDTO max;
     private CryptoDTO min;
     private CryptoDTO newest;
     private CryptoDTO oldest;
     private BigDecimal normalizedValue;
+    private List<CryptoDTO> cryptos;
 
     public String getCryptoCode() {
         return cryptoCode;
