@@ -1,24 +1,33 @@
 package com.test.cryptorecommendations.service;
 
 import com.test.cryptorecommendations.controller.dto.RecommendationDTO;
+import com.test.cryptorecommendations.service.exception.CryptoNotFoundException;
 import com.test.cryptorecommendations.service.model.CryptoModel;
 import com.test.cryptorecommendations.service.model.RecommendationModel;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 public interface RecommendationsService {
     RecommendationModel getRecommendation(String cryptoCode);
 
-    List<RecommendationModel> getAll() throws IOException;
+    List<RecommendationModel> getAll();
 
-    List<RecommendationModel> getSortedDesc() throws IOException;
+    RecommendationModel getWithHighestNormalizedRangeByDay(LocalDate date);
 
-    CryptoModel getMinForCrypto(String cryptoCode);
+    Set<String> getSupportedCryptoCodes();
 
-    CryptoModel getMaxForCrypto(String cryptoCode);
+    List<RecommendationModel> getSortedDesc();
 
-    CryptoModel getNewestForCrypto(String cryptoCode);
+    RecommendationModel getHighestNormalizedRange();
 
-    CryptoModel getOldestForCrypto(String cryptoCode);
+    CryptoModel recommendMinForCrypto(String cryptoCode);
+
+    CryptoModel recommendMaxForCrypto(String cryptoCode);
+
+    CryptoModel recommendNewestForCrypto(String cryptoCode);
+
+    CryptoModel recommendOldestForCrypto(String cryptoCode);
 }

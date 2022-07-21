@@ -37,8 +37,10 @@ public class ModelConverter {
         }
         recommendationDTO.setCryptos(cryptoDTOS);
         recommendationDTO.setCryptoCode(recommendationModel.getCryptoCode());
-        recommendationDTO.setMin(recommendationModel.getMin());
-        recommendationDTO.setMax(recommendationModel.getMax());
+        recommendationDTO.setMin(cryptoModelToDTO(recommendationModel.getMin()));
+        recommendationDTO.setMax(cryptoModelToDTO(recommendationModel.getMax()));
+        recommendationDTO.setNewest(cryptoModelToDTO(recommendationModel.getNewest()));
+        recommendationDTO.setOldest(cryptoModelToDTO(recommendationModel.getOldest()));
         recommendationDTO.setNormalizedValue(recommendationModel.getNormalizedValue());
 
         return recommendationDTO;

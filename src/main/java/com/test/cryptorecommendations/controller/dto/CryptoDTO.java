@@ -4,21 +4,22 @@ import com.test.cryptorecommendations.service.model.CryptoModel;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class CryptoDTO {
-    private Timestamp timestamp;
+    private LocalDateTime timestamp;
     private String name;
     private BigDecimal price;
 
-    public Timestamp getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 

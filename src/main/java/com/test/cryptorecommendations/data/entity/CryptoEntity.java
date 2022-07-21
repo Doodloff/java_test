@@ -2,17 +2,18 @@ package com.test.cryptorecommendations.data.entity;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class CryptoEntity {
-    private Timestamp timestamp;
+    private LocalDateTime timestamp;
     private String name;
     private BigDecimal price;
 
-    public Timestamp getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 

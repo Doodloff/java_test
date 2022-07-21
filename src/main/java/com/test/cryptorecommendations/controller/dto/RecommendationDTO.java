@@ -7,11 +7,13 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public class RecommendationDTO {
-    String cryptoCode;
+    private String cryptoCode;
     private List<CryptoDTO> cryptos;
-    BigDecimal max;
-    BigDecimal min;
-    BigDecimal normalizedValue;
+    private CryptoDTO max;
+    private CryptoDTO min;
+    private CryptoDTO newest;
+    private CryptoDTO oldest;
+    private BigDecimal normalizedValue;
 
     public String getCryptoCode() {
         return cryptoCode;
@@ -29,24 +31,40 @@ public class RecommendationDTO {
         this.cryptos = cryptos;
     }
 
-    public BigDecimal getMax() {
+    public CryptoDTO getMax() {
         return max;
     }
 
-    public void setMax(BigDecimal max) {
+    public void setMax(CryptoDTO max) {
         this.max = max;
     }
 
-    public BigDecimal getMin() {
+    public CryptoDTO getMin() {
         return min;
     }
 
-    public void setMin(BigDecimal min) {
+    public void setMin(CryptoDTO min) {
         this.min = min;
     }
 
     public BigDecimal getNormalizedValue() {
         return normalizedValue;
+    }
+
+    public CryptoDTO getNewest() {
+        return newest;
+    }
+
+    public void setNewest(CryptoDTO newest) {
+        this.newest = newest;
+    }
+
+    public CryptoDTO getOldest() {
+        return oldest;
+    }
+
+    public void setOldest(CryptoDTO oldest) {
+        this.oldest = oldest;
     }
 
     public void setNormalizedValue(BigDecimal normalizedValue) {
