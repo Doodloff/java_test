@@ -1,7 +1,7 @@
-Crypto Recommendations
+# Crypto Recommendations
 
-3-layer architecture.
-Basic interfaces and classes: 
+**3-layer architecture.**
+**Basic interfaces and classes:**
   API: RecommendationsController
   Business layer: RecommendationsService, RecommendationsServiceImpl, 
   Data layer: CryptorLoader, CSVCryptoLoader (Caching is enabled here - may cause appropriate behavior during debug.)
