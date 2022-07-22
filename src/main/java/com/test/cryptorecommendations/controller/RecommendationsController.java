@@ -34,6 +34,7 @@ public class RecommendationsController {
     }
 
     // Descending sorted list of all the cryptos, comparing the normalized range (i.e. (max-min)/min)
+    // Better would be done with query param for Restful app, but was required as separate endpoint
     @GetMapping(value = "/sorted")
     public List<RecommendationDTO> getSortedDesc() {
         List<RecommendationModel> recommendationModels = service.getSortedDesc();
