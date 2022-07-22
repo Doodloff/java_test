@@ -7,7 +7,6 @@ import com.test.cryptorecommendations.service.model.CryptoModel;
 import com.test.cryptorecommendations.service.model.RecommendationModel;
 import com.test.cryptorecommendations.utilities.ModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
