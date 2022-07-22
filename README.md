@@ -27,7 +27,7 @@ Basic class: RecommendationsController
 
 ## Business layer:
 
-Incapsulates analysis and calculations for currency data. Lambdas used for sorting, filtering, etc.
+Incapsulates analysis and calculations for currency data. Streams used for sorting, filtering, etc.
 
 Basic interfaces and classes: RecommendationsService, RecommendationsServiceImpl.
 
