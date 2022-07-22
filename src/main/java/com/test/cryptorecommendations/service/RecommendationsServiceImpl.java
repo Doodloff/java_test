@@ -10,9 +10,13 @@ import com.test.cryptorecommendations.utilities.ModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 // <summary>
@@ -76,11 +80,11 @@ public class RecommendationsServiceImpl implements RecommendationsService {
     // Retrieves a cryptocurrency with highest normalized range for a specific day.
     @Override
     public RecommendationModel getWithHighestNormalizedRangeByDay(LocalDate date) {
-        return getAll().stream()
-                .filter(recommendationModel -> recommendationModel.getMinByDay(date).isPresent())
-                .filter(recommendationModel -> recommendationModel.getMaxByDay(date).isPresent())
-                .max(Comparator.comparing(recommendationModel -> recommendationModel.getNormalizedValueByDay(date)))
-                .orElseThrow(NoSuchElementException::new);
+            return getAll().stream()
+                    .filter(recommendationModel -> recommendationModel.getMinByDay(date).isPresent())
+                    .filter(recommendationModel -> recommendationModel.getMaxByDay(date).isPresent())
+                    .max(Comparator.comparing(recommendationModel -> recommendationModel.getNormalizedValueByDay(date)))
+                    .orElseThrow(NoSuchElementException::new);
     }
 
     // Retrieves a cryptocurrency entry the minimum price by currency symbol.

@@ -7,8 +7,12 @@ import com.test.cryptorecommendations.service.model.CryptoModel;
 import com.test.cryptorecommendations.service.model.RecommendationModel;
 import com.test.cryptorecommendations.utilities.ModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,37 +46,57 @@ public class RecommendationsController {
     // Minimum value for a crypto
     @GetMapping(value = "/{name}/min")
     public CryptoDTO getMin(@PathVariable("name") String name) {
-        CryptoModel cryptoModel = service.recommendMinForCrypto(name);
-        CryptoDTO response = ModelConverter.cryptoModelToDTO(cryptoModel);
+        try {
+            CryptoModel cryptoModel = service.recommendMinForCrypto(name);
+            CryptoDTO response = ModelConverter.cryptoModelToDTO(cryptoModel);
 
-        return response;
+            return response;
+        } catch (IllegalArgumentException exc) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, EndpointErrorMessages.NOT_SUPPORTED_CRYPTO_CODE, exc);
+        }
     }
 
     // Maximum value for a crypto
     @GetMapping(value = "/{name}/max")
     public CryptoDTO getMax(@PathVariable("name") String name) {
-        CryptoModel cryptoModel = service.recommendMaxForCrypto(name);
-        CryptoDTO response = ModelConverter.cryptoModelToDTO(cryptoModel);
+        try {
+            CryptoModel cryptoModel = service.recommendMaxForCrypto(name);
+            CryptoDTO response = ModelConverter.cryptoModelToDTO(cryptoModel);
 
-        return response;
+            return response;
+        } catch (IllegalArgumentException exc) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, EndpointErrorMessages.NOT_SUPPORTED_CRYPTO_CODE, exc);
+        }
     }
 
     // Newest value for a crypto
     @GetMapping(value = "/{name}/newest")
     public CryptoDTO getNewest(@PathVariable("name") String name) {
-        CryptoModel cryptoModel = service.recommendNewestForCrypto(name);
-        CryptoDTO response = ModelConverter.cryptoModelToDTO(cryptoModel);
+        try {
+            CryptoModel cryptoModel = service.recommendNewestForCrypto(name);
+            CryptoDTO response = ModelConverter.cryptoModelToDTO(cryptoModel);
 
-        return response;
+            return response;
+        } catch (IllegalArgumentException exc) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, EndpointErrorMessages.NOT_SUPPORTED_CRYPTO_CODE, exc);
+        }
     }
 
     // Oldest value for a crypto
     @GetMapping(value = "/{name}/oldest")
     public CryptoDTO getOldest(@PathVariable("name") String name) {
-        CryptoModel cryptoModel = service.recommendOldestForCrypto(name);
-        CryptoDTO response = ModelConverter.cryptoModelToDTO(cryptoModel);
+        try {
+            CryptoModel cryptoModel = service.recommendOldestForCrypto(name);
+            CryptoDTO response = ModelConverter.cryptoModelToDTO(cryptoModel);
 
-        return response;
+            return response;
+        } catch (IllegalArgumentException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, EndpointErrorMessages.NOT_SUPPORTED_CRYPTO_CODE, ex);
+        }
     }
 
     // Crypto with the highest normalized range for a specific day
