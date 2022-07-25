@@ -93,17 +93,21 @@ class RecommendationsControllerTest {
 
     @Test
     void getMax() {
+        //todo
     }
 
     @Test
     void getNewest() {
+        //todo
     }
 
     @Test
     void getOldest() {
+        //todo
     }
 
     @Test
     void getHighestNormilizedByDay() {
+        //todo
     }
 }

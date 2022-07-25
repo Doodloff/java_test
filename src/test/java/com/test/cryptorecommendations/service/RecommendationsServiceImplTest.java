@@ -84,37 +84,46 @@ class RecommendationsServiceImplTest {
 
     @Test
     void getAll() {
+        //todo
     }
 
     @Test
     void getSupportedCryptoCodes() {
+        //todo
     }
 
     @Test
     void getSortedDesc() {
+        //todo
     }
 
     @Test
     void getHighestNormalizedRange() {
+        //todo
     }
 
     @Test
     void getWithHighestNormalizedRangeByDay() {
+        //todo
     }
 
     @Test
     void recommendMinForCrypto() {
+        //todo
     }
 
     @Test
     void recommendMaxForCrypto() {
+        //todo
     }
 
     @Test
     void recommendNewestForCrypto() {
+        //todo
     }
 
     @Test
     void recommendOldestForCrypto() {
+        //todo
     }
 }
