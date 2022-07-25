@@ -30,11 +30,11 @@ import org.apache.logging.log4j.LogManager;
 // Logic could be easily extended to read more files with gradation by months (for example - a subdirectory for each month or other way)
 // </summary>
 @Component
-public class CSVCryptoLoader implements CryptorLoader{
+public class CSVCryptoLoader implements CryptoLoader {
 
     private static Logger logger = LogManager.getLogger(CSVCryptoLoader.class);
 
-    @Value(value = "src/main/resources/cryptos/")
+    @Value("${crypto.dir}")
     private String cryptoDataPath;
 
 
@@ -60,9 +60,10 @@ public class CSVCryptoLoader implements CryptorLoader{
             }
         } catch (FileNotFoundException e) {
             logger.error(DataErrorMessages.NO_CRYPTOCURRENCY_FILE);
+            throw new RuntimeException(DataErrorMessages.NO_CRYPTOCURRENCY_FILE, e);
         } catch (IOException e) {
             logger.error(DataErrorMessages.CRYPTOCURRENCY_FILE_READ_ERROR);
-            e.printStackTrace();
+            throw new RuntimeException(DataErrorMessages.CRYPTOCURRENCY_FILE_READ_ERROR, e);
         }
 
         return records;
@@ -70,8 +71,8 @@ public class CSVCryptoLoader implements CryptorLoader{
 
     // Listing files in specified directory with crypto currency data
     @Override
-    public Set listFilesInDir(String dir) throws IOException {
-        try (Stream<Path> stream = Files.list(Paths.get(dir))) {
+    public Set listFilesInDir() throws IOException {
+        try (Stream<Path> stream = Files.list(Paths.get(cryptoDataPath))) {
             return stream
                     .filter(file -> !Files.isDirectory(file))
                     .map(Path::getFileName)
@@ -84,7 +85,7 @@ public class CSVCryptoLoader implements CryptorLoader{
     @Override
     @Cacheable("crypto_codes")
     public Set<String> getSupportedCryptoCodes() throws IOException {
-        Set<String> supportedCodes = listFilesInDir(cryptoDataPath);
+        Set<String> supportedCodes = listFilesInDir();
 
         return supportedCodes.stream()
                 .map(str -> str.split("_"))

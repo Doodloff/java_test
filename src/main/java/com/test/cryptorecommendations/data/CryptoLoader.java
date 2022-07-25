@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Set;
 
 
-public interface CryptorLoader {
+public interface CryptoLoader {
     // load crypto data
     List<CryptoEntity> readCrypto(String cryptoCode);
     // Listing files in specified directory with crypto currency data
-    Set listFilesInDir(String dir) throws IOException;
+    Set listFilesInDir() throws IOException;
     // Get supported codes based on the file names in directory
     Set<String> getSupportedCryptoCodes() throws IOException;
 }

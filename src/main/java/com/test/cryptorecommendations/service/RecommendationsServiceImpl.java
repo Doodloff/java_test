@@ -1,6 +1,6 @@
 package com.test.cryptorecommendations.service;
 
-import com.test.cryptorecommendations.data.CryptorLoader;
+import com.test.cryptorecommendations.data.CryptoLoader;
 import com.test.cryptorecommendations.data.entity.CryptoEntity;
 import com.test.cryptorecommendations.service.exception.CryptoException;
 import com.test.cryptorecommendations.service.exception.CryptoNotFoundException;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class RecommendationsServiceImpl implements RecommendationsService {
 
     @Autowired
-    private CryptorLoader cryptoLoader;
+    private CryptoLoader cryptoLoader;
 
     // Get recommendation object (a cryptocurrency with entries list and sensitive data)
     @Override

@@ -8,6 +8,14 @@ public class CryptoModel{
     private String name;
     private BigDecimal price;
 
+    public CryptoModel() {}
+
+    public CryptoModel(LocalDateTime timestamp, String name, BigDecimal price) {
+        this.timestamp = timestamp;
+        this.name = name;
+        this.price = price;
+    }
+
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
